@@ -1,518 +1,89 @@
-/* =========================================================
-   Student Attendance v1.1.1
-   Program Ziyadah SD Plus Islamic Village
-========================================================= */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-html,
 body{
+    background:#f2f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
 
+.container{
     width:100%;
-    height:100%;
-    overflow:hidden;
-
-    font-family:'Poppins',sans-serif;
-
-    background:#eef3f8;
-
+    max-width:520px;
 }
 
-.app{
-
-    width:100vw;
-    height:100vh;
-
-    display:flex;
-    flex-direction:column;
-
-}
-
-/* ==========================
-   HEADER
-========================== */
-
-.top-header{
-
-    height:90px;
-
-    background:#0F4C81;
-
-    color:white;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:15px 30px;
-
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
-
-}
-
-.school{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
-}
-
-.logo{
-
-    width:60px;
-
-    height:60px;
-
-    object-fit:contain;
-
-}
-
-.school h1{
-
-    font-size:30px;
-
-    font-weight:700;
-
-    margin:0;
-
-}
-
-.school h2{
-
-    font-size:18px;
-
-    font-weight:500;
-
-    margin:0;
-
-}
-
-.school small{
-
-    font-size:14px;
-
-    opacity:.9;
-
-}
-
-.clock{
-
-    text-align:right;
-
-}
-
-#today{
-
-    font-size:16px;
-
-    font-weight:500;
-
-}
-
-#clock{
-
-    font-size:34px;
-
-    font-weight:700;
-
-}
-
-/* ==========================
-   CONTENT
-========================== */
-
-.content{
-
-    flex:1;
-
-    display:grid;
-
-    grid-template-columns:42% 58%;
-
-    gap:20px;
-
-    padding:20px;
-
-    overflow:hidden;
-
-}
-
-/* ==========================
-   CARD
-========================== */
-
-.camera-card,
-.result-card{
-
-    background:#ffffff;
-
+.card{
+    background:#fff;
     border-radius:18px;
-
-    box-shadow:0 8px 24px rgba(0,0,0,.08);
-
     padding:20px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    overflow:hidden;
-
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
 }
 
-.card-title{
-
-    font-size:22px;
-
-    font-weight:600;
-
-    color:#0F4C81;
-
-    margin-bottom:15px;
-
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#1e3a8a;
 }
-
-/* ==========================
-   CAMERA
-========================== */
 
 #reader{
-
-    flex:1;
-
     width:100%;
-
-    min-height:420px;
-
-    border-radius:15px;
-
     overflow:hidden;
-
-    border:2px solid #dbe5f0;
-
-    background:#000;
-
+    border-radius:12px;
+    border:2px solid #ddd;
 }
 
-.btn{
-
-    border-radius:12px !important;
-
-    font-size:18px !important;
-
-    font-weight:600 !important;
-
-}
-
-/* ==========================
-   RESULT
-========================== */
-
-.result{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    border-radius:16px;
-
+.status{
+    margin-top:20px;
     text-align:center;
-
-    transition:.35s;
-
-    padding:20px;
-
 }
 
-.result.waiting{
-
-    background:#f5f7fa;
-
-    color:#6b7280;
-
+#message{
+    padding:12px;
+    border-radius:10px;
+    background:#eef2ff;
+    color:#1e3a8a;
+    font-weight:bold;
 }
 
-.result.success{
-
-    background:#d1fae5;
-
-    color:#065f46;
-
+.info{
+    margin-top:20px;
 }
 
-.result.late{
-
-    background:#fff3cd;
-
-    color:#92400e;
-
-}
-
-.result.error{
-
-    background:#fee2e2;
-
-    color:#991b1b;
-
-}
-
-.result-icon{
-
-    font-size:70px;
-
-    margin-bottom:15px;
-
-}
-
-.result-title{
-
-    font-size:34px;
-
-    font-weight:700;
-
-    margin-bottom:20px;
-
-}
-
-.student-name{
-
-    font-size:40px;
-
-    font-weight:700;
-
-    color:#111827;
-
-    margin-bottom:18px;
-
-}
-
-.student-class,
-.student-status,
-.student-time,
-.student-note{
-
-    font-size:22px;
-
-    margin:8px 0;
-
-}
-
-/* ==========================
-   FOOTER
-========================== */
-
-.bottom-bar{
-
-    height:70px;
-
-    background:#ffffff;
-
-    border-top:1px solid #dbe5f0;
-
+.info div{
     display:flex;
-
-    align-items:center;
-
     justify-content:space-between;
-
-    padding:0 25px;
-
-    box-shadow:0 -2px 8px rgba(0,0,0,.05);
-
+    padding:12px;
+    border-bottom:1px solid #ececec;
 }
 
-.bottom-bar .btn{
-
-    min-width:180px;
-
+.info label{
+    font-weight:bold;
+    color:#555;
 }
 
-.scanner-status{
-
-    font-size:20px;
-
-    font-weight:600;
-
+.info span{
+    color:#111827;
 }
 
-.counter{
-
-    font-size:20px;
-
-    font-weight:600;
-
+.success{
+    background:#dcfce7 !important;
+    color:#166534 !important;
 }
 
-/* ==========================
-   ANIMATION
-========================== */
-
-.result{
-
-    animation-duration:.35s;
-
-    animation-fill-mode:both;
-
+.error{
+    background:#fee2e2 !important;
+    color:#b91c1c !important;
 }
 
-.result.success,
-.result.error,
-.result.late{
-
-    animation-name:popCard;
-
+.warning{
+    background:#fef3c7 !important;
+    color:#92400e !important;
 }
 
-@keyframes popCard{
-
-    0%{
-
-        transform:scale(.95);
-
-        opacity:.6;
-
-    }
-
-    100%{
-
-        transform:scale(1);
-
-        opacity:1;
-
-    }
-
-}
-
-/* ==========================
-   TABLET
-========================== */
-
-@media (max-width:1024px){
-
-    .top-header{
-
-        height:80px;
-
-        padding:15px;
-
-    }
-
-    .logo{
-
-        width:50px;
-
-        height:50px;
-
-    }
-
-    .school h1{
-
-        font-size:24px;
-
-    }
-
-    .school h2{
-
-        font-size:16px;
-
-    }
-
-    #clock{
-
-        font-size:28px;
-
-    }
-
-    .content{
-
-        grid-template-columns:45% 55%;
-
-        gap:15px;
-
-        padding:15px;
-
-    }
-
-    #reader{
-
-        min-height:340px;
-
-    }
-
-    .student-name{
-
-        font-size:32px;
-
-    }
-
-    .result-title{
-
-        font-size:28px;
-
-    }
-
-    .student-class,
-    .student-status,
-    .student-time,
-    .student-note{
-
-        font-size:18px;
-
-    }
-
-}
-
-/* ==========================
-   MOBILE (Cadangan)
-========================== */
-
-@media (max-width:768px){
-
-    body{
-
-        overflow:auto;
-
-    }
-
-    .app{
-
-        height:auto;
-
-    }
-
-    .content{
-
-        display:flex;
-
-        flex-direction:column;
-
-    }
-
-    .bottom-bar{
-
-        flex-direction:column;
-
-        gap:10px;
-
-        height:auto;
-
-        padding:15px;
-
-    }
-
-}
