@@ -1,29 +1,76 @@
 // =====================================
-// QR SCANNER
+// SCANNER.JS
+// Student Attendance v2.0
 // =====================================
 
-let html5QrCode;
+let html5QrCode = null;
+let cameras = [];
+let currentCamera = 0;
+let isProcessing = false;
 
-let scanning = false;
+// ===============================
+// MULAI SCANNER
+// ===============================
+async function startScanner() {
 
-function startScanner() {
+    try {
 
-    html5QrCode = new Html5Qrcode("reader");
+        html5QrCode = new Html5Qrcode("reader");
 
-    Html5Qrcode.getCameras().then(cameras => {
+        cameras = await Html5Qrcode.getCameras();
 
-        if (!cameras || cameras.length == 0) {
+        if (!cameras || cameras.length === 0) {
 
-            document.getElementById("message").innerHTML =
-                "❌ Kamera tidak ditemukan.";
-
+            setMessage("❌ Kamera tidak ditemukan", "error");
             return;
 
         }
 
-        html5QrCode.start(
+        // Pilih kamera belakang jika ada
+        let backCamera = cameras.find(c =>
+            c.label.toLowerCase().includes("back") ||
+            c.label.toLowerCase().includes("rear")
+        );
 
-            cameras[0].id,
+        if (backCamera) {
+            currentCamera = cameras.indexOf(backCamera);
+        }
+
+        await startCamera();
+
+    } catch (err) {
+
+        console.error(err);
+        setMessage("❌ Gagal mengakses kamera", "error");
+
+    }
+
+}
+
+// ===============================
+// START CAMERA
+// ===============================
+async function startCamera() {
+
+    try {
+
+        if (html5QrCode) {
+
+            try {
+                await html5QrCode.stop();
+            } catch (e) {}
+
+            try {
+                await html5QrCode.clear();
+            } catch (e) {}
+
+        }
+
+        html5QrCode = new Html5Qrcode("reader");
+
+        await html5QrCode.start(
+
+            cameras[currentCamera].id,
 
             {
                 fps: 10,
@@ -37,26 +84,54 @@ function startScanner() {
 
         );
 
-    });
+        setMessage("📷 Scanner Ready");
+
+    } catch (err) {
+
+        console.error(err);
+
+        setMessage("❌ Kamera gagal dijalankan", "error");
+
+    }
 
 }
 
+// ===============================
+// QR BERHASIL
+// ===============================
 async function onScanSuccess(decodedText) {
 
-    if (scanning) return;
+    if (isProcessing) return;
 
-    scanning = true;
+    isProcessing = true;
 
-    document.getElementById("message").innerHTML =
-        "⏳ Mengirim data...";
+    setMessage("⏳ Mengirim data...");
 
     try {
 
-        const hasil = await sendAttendance(decodedText);
+        const hasil = await sendAttendance(decodedText.trim());
 
         showResult(hasil);
 
-    } catch (e) {
+        // Beep
+        try {
+
+            const audio = new Audio(
+                "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
+            );
+
+            audio.play();
+
+        } catch (e) {}
+
+        // Vibrate
+        if (navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+
+    } catch (err) {
+
+        console.error(err);
 
         showResult({
             success: false,
@@ -65,13 +140,70 @@ async function onScanSuccess(decodedText) {
 
     }
 
+    // Scanner siap lagi
     setTimeout(() => {
 
-        scanning = false;
+        isProcessing = false;
 
-        document.getElementById("message").innerHTML =
-            "📷 Scanner Ready...";
+        setMessage("📷 Scanner Ready");
 
-    }, 2000);
+    }, 1500);
 
 }
+
+// ===============================
+// GANTI KAMERA
+// ===============================
+async function switchCamera() {
+
+    if (cameras.length < 2) {
+
+        alert("Hanya ada satu kamera.");
+
+        return;
+
+    }
+
+    currentCamera++;
+
+    if (currentCamera >= cameras.length) {
+
+        currentCamera = 0;
+
+    }
+
+    await startCamera();
+
+}
+
+// ===============================
+// MESSAGE
+// ===============================
+function setMessage(text, type = "") {
+
+    const el = document.getElementById("message");
+
+    el.innerHTML = text;
+
+    el.className = "";
+
+    if (type) {
+
+        el.classList.add(type);
+
+    }
+
+}
+
+// ===============================
+// EVENT
+// ===============================
+window.addEventListener("load", async () => {
+
+    await startScanner();
+
+    document
+        .getElementById("switchCamera")
+        .addEventListener("click", switchCamera);
+
+});
