@@ -37,6 +37,18 @@ async function startScanner() {
         }
 
         await startCamera();
+        // Refresh sekali agar ukuran video benar
+setTimeout(async () => {
+
+    try {
+
+        await startCamera();
+
+    } catch (e) {
+        console.log(e);
+    }
+
+}, 500);
 
     } catch (err) {
 
