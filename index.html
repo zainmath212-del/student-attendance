@@ -1,1 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Student Attendance</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>📷 Student Attendance</h1>
+
+        <div id="reader"></div>
+
+        <div class="status">
+
+            <div id="message">
+
+                Scanner Ready...
+
+            </div>
+
+        </div>
+
+        <div class="info">
+
+            <div>
+
+                <label>Nama</label>
+
+                <span id="nama">-</span>
+
+            </div>
+
+            <div>
+
+                <label>Kelas</label>
+
+                <span id="kelas">-</span>
+
+            </div>
+
+            <div>
+
+                <label>Status</label>
+
+                <span id="status">-</span>
+
+            </div>
+
+            <div>
+
+                <label>Keterangan</label>
+
+                <span id="keterangan">-</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
