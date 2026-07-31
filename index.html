@@ -8,72 +8,204 @@
 
 <title>Student Attendance</title>
 
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="css/style.css">
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-    <div class="card">
+    <!-- HEADER -->
 
-        <h1>📷 Student Attendance</h1>
+    <header class="top-header">
 
-        <div id="reader"></div>
-        <button id="switchCamera" class="btn-camera">
-    🔄 Ganti Kamera
-</button>
+        <div class="school">
 
-        <div class="status">
+            <img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1RdEnoxYSP5qnP2-r2GajR5fU6Af7WSPyQtHCYAIpI27m8Zptnpr5vteAw_Y8KorIleCzYTUodc-fralUmth09qf0X3YrPY30PDDM67Xc8EOiNbo3PBOW9L35r5OvbQzEJ6vfcJolZvEALjf52i2ByB_iH9z2-LKWPRONIN2-r5H8JLdJq-AkM55Lckz6/s320/LOGO-ISVILL.webp"
+            class="logo">
 
-            <div id="message">
+            <div>
 
-                Scanner Ready...
+                <h1>
+
+                    Student Attendance
+
+                </h1>
+
+                <h2>
+
+                    Program Ziyadah
+
+                </h2>
+
+                <small>
+
+                    SD Plus Islamic Village
+
+                </small>
 
             </div>
 
         </div>
 
-        <div class="info">
+        <div class="clock">
 
-            <div>
+            <div id="today">
 
-                <label>Nama</label>
-
-                <span id="nama">-</span>
+                Saturday
 
             </div>
 
-            <div>
+            <div id="clock">
 
-                <label>Kelas</label>
-
-                <span id="kelas">-</span>
-
-            </div>
-
-            <div>
-
-                <label>Status</label>
-
-                <span id="status">-</span>
-
-            </div>
-
-            <div>
-
-                <label>Keterangan</label>
-
-                <span id="keterangan">-</span>
+                06:35:21
 
             </div>
 
         </div>
 
-    </div>
+    </header>
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+        <!-- CAMERA -->
+
+        <section class="camera-card">
+
+            <div class="card-title">
+
+                📷 Live Camera
+
+            </div>
+
+            <div id="reader"></div>
+
+            <button
+            id="switchCamera"
+            class="btn btn-primary btn-lg w-100 mt-3">
+
+                🔄 Ganti Kamera
+
+            </button>
+
+        </section>
+
+                </section>
+
+        <!-- HASIL SCAN -->
+
+        <section class="result-card">
+
+            <div class="card-title">
+
+                📋 Hasil Scan
+
+            </div>
+
+            <div id="resultBox" class="result waiting">
+
+                <div class="result-icon">
+
+                    📷
+
+                </div>
+
+                <div class="result-title">
+
+                    Menunggu Scan...
+
+                </div>
+
+                <div class="student-name" id="nama">
+
+                    -
+
+                </div>
+
+                <div class="student-class">
+
+                    🏫 <span id="kelas">-</span>
+
+                </div>
+
+                <div class="student-status">
+
+                    📋 <span id="status">-</span>
+
+                </div>
+
+                <div class="student-time">
+
+                    🕒 <span id="scanTime">--:--:--</span>
+
+                </div>
+
+                <div class="student-note">
+
+                    <span id="keterangan">
+
+                        Silakan scan QR siswa
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="bottom-bar">
+
+        <button
+            id="switchCameraFooter"
+            class="btn btn-outline-primary">
+
+            🔄 Ganti Kamera
+
+        </button>
+
+        <div class="scanner-status">
+
+            🟢 <span id="message">
+
+                Scanner Aktif
+
+            </span>
+
+        </div>
+
+        <div class="counter">
+
+            ✅ Hadir :
+            <strong id="hadirToday">0</strong>
+
+            &nbsp;&nbsp;
+
+            🟠 Telat :
+            <strong id="lateToday">0</strong>
+
+        </div>
+
+    </footer>
 
 </div>
 
@@ -81,6 +213,46 @@
 <script src="js/ui.js"></script>
 <script src="js/scanner.js"></script>
 <script src="js/app.js"></script>
+
+<script>
+
+// Jam realtime
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("clock").innerHTML =
+        now.toLocaleTimeString("id-ID");
+
+    document.getElementById("today").innerHTML =
+        now.toLocaleDateString("id-ID",{
+            weekday:"long",
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        });
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+// Tombol footer = tombol atas
+
+document
+.getElementById("switchCameraFooter")
+.onclick=()=>{
+
+    document
+    .getElementById("switchCamera")
+    .click();
+
+};
+
+</script>
 
 </body>
 
