@@ -198,12 +198,15 @@ function setMessage(text, type = "") {
 // ===============================
 // EVENT
 // ===============================
-window.addEventListener("load", async () => {
-
-    await startScanner();
+window.addEventListener("load", () => {
 
     document
         .getElementById("switchCamera")
         .addEventListener("click", switchCamera);
+
+    // Tunggu layout selesai
+    setTimeout(() => {
+        startScanner();
+    }, 400);
 
 });
