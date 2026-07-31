@@ -72,24 +72,6 @@ h1{
     color:#111827;
 }
 
-#nama{
-
-    font-size:28px;
-    font-weight:700;
-    color:#1f2937;
-    padding:10px 0;
-
-}
-
-#kelas,
-#status,
-#keterangan{
-
-    font-size:22px;
-    padding:8px 0;
-
-}
-
 .success{
     background:#dcfce7 !important;
     color:#166534 !important;
