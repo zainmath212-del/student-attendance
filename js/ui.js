@@ -1,46 +1,51 @@
 // =====================================
-// UI.JS
+// TAMPILKAN HASIL
 // =====================================
 
-function showResult(data) {
+function showResult(data){
 
+    const message = document.getElementById("message");
     const nama = document.getElementById("nama");
     const kelas = document.getElementById("kelas");
     const status = document.getElementById("status");
-    const ket = document.getElementById("keterangan");
+    const keterangan = document.getElementById("keterangan");
 
-    if (!data.success) {
+    // Reset warna
+    message.classList.remove("success","error","warning");
 
-        nama.innerHTML = "❌ Gagal";
-        kelas.innerHTML = "-";
-        status.innerHTML = "-";
-        ket.innerHTML = data.message || "Terjadi kesalahan.";
+    if(data.success){
 
-        return;
-    }
+        message.innerHTML = "✅ " + data.message;
+        message.classList.add("success");
 
-    // Nama
-    nama.innerHTML = "👤 <b>" + data.nama + "</b>";
+        nama.innerHTML = data.nama || "-";
+        kelas.innerHTML = data.kelas || "-";
+        status.innerHTML = data.status || "-";
+        keterangan.innerHTML = data.message || "-";
 
-    // Kelas
-    kelas.innerHTML = "🏫 Grade " + data.kelas;
+    }else{
 
-    // Status
-    if (data.status === "Hadir") {
-
-        status.innerHTML = "🟢 Hadir";
-
-    } else if (data.status === "Terlambat") {
-
-        status.innerHTML = "🟠 Terlambat";
-
-    } else {
-
-        status.innerHTML = "🔴 " + data.status;
+        message.innerHTML = "❌ " + data.message;
+        message.classList.add("error");
 
     }
 
-    // Keterangan
-    ket.innerHTML = "✔ " + data.message;
+    // Bunyi beep
+    try{
+
+        const audio = new Audio(
+            "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
+        );
+
+        audio.play();
+
+    }catch(e){}
+
+    // Getar HP
+    if(navigator.vibrate){
+
+        navigator.vibrate(200);
+
+    }
 
 }
