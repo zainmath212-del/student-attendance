@@ -15,9 +15,9 @@ async function startScanner() {
 
     try {
 
-        html5QrCode = new Html5Qrcode("reader");
+        html5QrCode = new Html5QrCode("reader");
 
-        cameras = await Html5Qrcode.getCameras();
+        cameras = await Html5QrCode.getCameras();
 
         if (!cameras || cameras.length === 0) {
 
@@ -26,22 +26,15 @@ async function startScanner() {
 
         }
 
-        // Pilih kamera belakang jika ada
-        let backCamera = cameras.find(c =>
-            c.label.toLowerCase().includes("back") ||
-            c.label.toLowerCase().includes("rear")
-        );
-
-        if (backCamera) {
-            currentCamera = cameras.indexOf(backCamera);
-        }
+        // Mulai selalu dari kamera belakang
+        currentCamera = 0;
 
         await startCamera();
-        // Refresh sekali agar ukuran video benar
-await startCamera();
+
     } catch (err) {
 
         console.error(err);
+
         setMessage("❌ Gagal mengakses kamera", "error");
 
     }
@@ -67,42 +60,40 @@ async function startCamera() {
 
         }
 
-        html5QrCode = new Html5Qrcode("reader");
+        html5QrCode = new Html5QrCode("reader");
 
         const cameraConfig =
-    currentCamera === 0
-        ? { facingMode: "environment" }
-        : { facingMode: "user" };
+            currentCamera === 0
+                ? { facingMode: "environment" }
+                : { facingMode: "user" };
 
-console.log(cameras);
-console.log("Current Camera:", currentCamera, cameras[currentCamera]);        
-await html5QrCode.start(
+        console.log("Current Camera:", currentCamera);
 
-    cameraConfig,
+        await html5QrCode.start(
 
-    {
-        fps: 10,
-        qrbox: {
-            width: 250,
-            height: 250
-        }
-    },
+            cameraConfig,
 
-    onScanSuccess
+            {
+                fps: 10,
+                qrbox: {
+                    width: 250,
+                    height: 250
+                }
+            },
 
-);
+            onScanSuccess
+
+        );
 
         setMessage("📷 Scanner Ready");
 
     } catch (err) {
 
-    console.error("START CAMERA ERROR:", err);
+        console.error(err);
 
-    alert(JSON.stringify(err));
+        setMessage("❌ Kamera gagal dijalankan", "error");
 
-    setMessage("❌ Kamera gagal dijalankan", "error");
-
-}
+    }
 
 }
 
