@@ -10,3 +10,17 @@ async function sendAttendance(id){
     return await response.json();
 
 }
+
+async function searchStudent(keyword){
+
+    const response = await fetch(
+
+        API_URL +
+        "?action=search&keyword=" +
+        encodeURIComponent(keyword)
+
+    );
+
+    return await response.json();
+
+}
