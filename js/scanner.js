@@ -18,6 +18,7 @@ async function startScanner() {
         html5QrCode = new Html5QrCode("reader");
 
         cameras = await Html5QrCode.getCameras();
+        console.table(cameras);
 
         if (!cameras || cameras.length === 0) {
 
@@ -26,10 +27,30 @@ async function startScanner() {
 
         }
 
-        // Mulai selalu dari kamera belakang
-        currentCamera = 0;
+        // Cari kamera belakang jika ada
+let backCamera = cameras.find(c =>
+    c.label.toLowerCase().includes("back") ||
+    c.label.toLowerCase().includes("rear")
+);
+
+if (backCamera) {
+    currentCamera = cameras.indexOf(backCamera);
+} else {
+    currentCamera = 0;
+}
 
         await startCamera();
+        setTimeout(async () => {
+
+    try {
+
+        if (!isProcessing) {
+            await startCamera();
+        }
+
+    } catch (e) {}
+
+},300);
 
     } catch (err) {
 
@@ -62,17 +83,12 @@ async function startCamera() {
 
         html5QrCode = new Html5QrCode("reader");
 
-        const cameraConfig =
-            currentCamera === 0
-                ? { facingMode: "environment" }
-                : { facingMode: "user" };
+        console.log(cameras);
+console.log("Current Camera:", currentCamera);
 
-        console.log("Current Camera:", currentCamera);
+await html5QrCode.start(
 
-        await html5QrCode.start(
-
-            cameraConfig,
-
+    cameras[currentCamera].id,
             {
                 fps: 10,
                 qrbox: {
