@@ -206,6 +206,30 @@ function setMessage(text, type = "") {
 
 }
 
+async function manualAttendance(id){
+
+    bootstrap.Modal
+    .getInstance(
+        document.getElementById("searchModal")
+    ).hide();
+
+    const hasil = await sendAttendance(id);
+
+    if(hasil.success){
+
+        showResult(hasil);
+
+    }else{
+
+        setMessage(
+            hasil.message,
+            "error"
+        );
+
+    }
+
+}
+
 // ===============================
 // EVENT
 // ===============================
