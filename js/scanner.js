@@ -26,10 +26,26 @@ async function startScanner() {
 
         }
 
-        // Mulai selalu dari kamera belakang
-        currentCamera = 0;
+        // Pilih kamera belakang jika ada
+        let backCamera = cameras.find(c =>
+            c.label.toLowerCase().includes("back") ||
+            c.label.toLowerCase().includes("rear")
+        );
+
+        if (backCamera) {
+            currentCamera = cameras.indexOf(backCamera);
+        }
 
         await startCamera();
+
+        // Refresh sekali agar ukuran video benar
+        setTimeout(async () => {
+
+            try {
+                await startCamera();
+            } catch (e) {}
+
+        }, 500);
 
     } catch (err) {
 
@@ -62,16 +78,9 @@ async function startCamera() {
 
         html5QrCode = new Html5QrCode("reader");
 
-        const cameraConfig =
-            currentCamera === 0
-                ? { facingMode: "environment" }
-                : { facingMode: "user" };
-
-        console.log("Current Camera:", currentCamera);
-
         await html5QrCode.start(
 
-            cameraConfig,
+            cameras[currentCamera].id,
 
             {
                 fps: 10,
