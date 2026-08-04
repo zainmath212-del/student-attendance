@@ -74,6 +74,8 @@ async function startCamera() {
         ? { facingMode: "environment" }
         : { facingMode: "user" };
 
+console.log(cameras);
+console.log("Current Camera:", currentCamera, cameras[currentCamera]);        
 await html5QrCode.start(
 
     cameraConfig,
@@ -94,11 +96,13 @@ await html5QrCode.start(
 
     } catch (err) {
 
-        console.error(err);
+    console.error("START CAMERA ERROR:", err);
 
-        setMessage("❌ Kamera gagal dijalankan", "error");
+    alert(JSON.stringify(err));
 
-    }
+    setMessage("❌ Kamera gagal dijalankan", "error");
+
+}
 
 }
 
