@@ -15,9 +15,9 @@ async function startScanner() {
 
     try {
 
-        html5QrCode = new Html5QrCode("reader");
+        html5QrCode = new Html5Qrcode("reader");
 
-        cameras = await Html5QrCode.getCameras();
+        cameras = await Html5Qrcode.getCameras();
 
         if (!cameras || cameras.length === 0) {
 
@@ -37,20 +37,22 @@ async function startScanner() {
         }
 
         await startCamera();
-
         // Refresh sekali agar ukuran video benar
-        setTimeout(async () => {
+setTimeout(async () => {
 
-            try {
-                await startCamera();
-            } catch (e) {}
+    try {
 
-        }, 500);
+        await startCamera();
+
+    } catch (e) {
+        console.log(e);
+    }
+
+}, 500);
 
     } catch (err) {
 
         console.error(err);
-
         setMessage("❌ Gagal mengakses kamera", "error");
 
     }
@@ -76,7 +78,7 @@ async function startCamera() {
 
         }
 
-        html5QrCode = new Html5QrCode("reader");
+        html5QrCode = new Html5Qrcode("reader");
 
         await html5QrCode.start(
 
@@ -185,7 +187,6 @@ async function switchCamera() {
     await startCamera();
 
 }
-
 // ===============================
 // MESSAGE
 // ===============================
