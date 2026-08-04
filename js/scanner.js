@@ -38,18 +38,7 @@ async function startScanner() {
 
         await startCamera();
         // Refresh sekali agar ukuran video benar
-setTimeout(async () => {
-
-    try {
-
-        await startCamera();
-
-    } catch (e) {
-        console.log(e);
-    }
-
-}, 500);
-
+await startCamera();
     } catch (err) {
 
         console.error(err);
@@ -80,21 +69,26 @@ async function startCamera() {
 
         html5QrCode = new Html5Qrcode("reader");
 
-        await html5QrCode.start(
+        const cameraConfig =
+    currentCamera === 0
+        ? { facingMode: "environment" }
+        : { facingMode: "user" };
 
-            cameras[currentCamera].id,
+await html5QrCode.start(
 
-            {
-                fps: 10,
-                qrbox: {
-                    width: 250,
-                    height: 250
-                }
-            },
+    cameraConfig,
 
-            onScanSuccess
+    {
+        fps: 10,
+        qrbox: {
+            width: 250,
+            height: 250
+        }
+    },
 
-        );
+    onScanSuccess
+
+);
 
         setMessage("📷 Scanner Ready");
 
