@@ -206,29 +206,6 @@ function setMessage(text, type = "") {
 
 }
 
-async function manualAttendance(id){
-
-    bootstrap.Modal
-    .getInstance(
-        document.getElementById("searchModal")
-    ).hide();
-
-    const hasil = await sendAttendance(id);
-
-    if(hasil.success){
-
-        showResult(hasil);
-
-    }else{
-
-        setMessage(
-            hasil.message,
-            "error"
-        );
-
-    }
-
-}
 
 // ===============================
 // EVENT
@@ -243,44 +220,5 @@ window.addEventListener("load", () => {
     setTimeout(() => {
         startScanner();
     }, 400);
-
-document
-.getElementById("searchInput")
-.addEventListener("keyup", async function(){
-
-    const keyword = this.value.trim();
-
-    if(keyword.length < 2){
-
-        document.getElementById("searchResult").innerHTML = "";
-
-        return;
-
-    }
-
-    const data = await searchStudent(keyword);
-
-    let html = "";
-
-    data.forEach(s=>{
-
-        html += `
-
-<div
-class="border rounded p-2 mb-2"
-style="cursor:pointer"
-onclick="manualAttendance('${s.id}')">
-
-<b>${s.nama}</b><br>
-
-Grade ${s.kelas}
-
-</div>
-
-`;
-
-    });
-
-    document.getElementById("searchResult").innerHTML = html;
 
 });    
